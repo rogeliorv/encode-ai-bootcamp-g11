@@ -30,11 +30,11 @@ class ChefGPT:
 
     def get_response(self, prompt):
         messages = self.system_messages + [{"role": "user", "content": prompt}]
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages
         )
-        return response.choices[0].message['content']
+        return response.choices[0].message.content
 
 italian_chef = ChefGPT("wise and experienced Italian chef that loves to make pasta")
 
