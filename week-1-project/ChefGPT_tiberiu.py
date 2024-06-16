@@ -49,7 +49,7 @@ def handle_recipe(input_str):
 
 def main():
     user_input = input("Enter your request (ingredients, dish name, or recipe):\n")
-    chef_type = "italian" 
+    chef_type = "italian"
 
     if ',' in user_input:
         print(handle_ingredients(user_input))
