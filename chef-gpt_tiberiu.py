@@ -17,7 +17,6 @@ class ChefGPT:
         )
         return response.choices[0].message.content
 
-# Define the chef personalities
 indian_chef = ChefGPT("young and spirited Indian cook that loves to make Biryani")
 italian_chef = ChefGPT("wise and experienced Italian chef that loves to make pasta")
 vegan_french_chef = ChefGPT("focused and detailist vegan French chef")
