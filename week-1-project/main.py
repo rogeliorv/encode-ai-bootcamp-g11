@@ -4,7 +4,7 @@ import ChefGPT_tiberiu
 import random
 
 def chef_tiberiu(text_input):
-    if ',' in user_input:
+    if ',' in text_input:
         print(ChefGPT_tiberiu.handle_ingredients(text_input))
     elif any(char.isdigit() for char in text_input):
         print(ChefGPT_tiberiu.handle_recipe(text_input))
