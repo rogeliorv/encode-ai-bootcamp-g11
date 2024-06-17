@@ -21,7 +21,7 @@ def chef_gethsun(text_input):
 
 
 def chef_rogeliorv(text_input):
-  print(ChefGPT_rogeliorv.handle_input(text_input))
+  ChefGPT_rogeliorv.handle_input(text_input)
 
 personalities = [chef_tiberiu, chef_gethsun, chef_rogeliorv]
 chosen_personality = random.choice(personalities)
