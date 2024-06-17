@@ -1,6 +1,7 @@
 import ChefGPT_gethsun
 import ChefGPT_rogeliorv
 import ChefGPT_tiberiu
+import ChefGPT_para
 import random
 
 def chef_tiberiu(text_input):
@@ -19,12 +20,15 @@ def chef_gethsun(text_input):
     else:
         print(ChefGPT_gethsun.handle_dish(text_input))
 
-
 def chef_rogeliorv(text_input):
   ChefGPT_rogeliorv.handle_input(text_input)
 
-personalities = [chef_tiberiu, chef_gethsun, chef_rogeliorv]
+def chef_para(text_input):
+    print(ChefGPT_para.handle_input(text_input))
+
+personalities = [chef_tiberiu, chef_gethsun, chef_rogeliorv,chef_para]
 chosen_personality = random.choice(personalities)
+# chosen_personality = chef_para
 print(f'Your chef for the day is ${chosen_personality.__name__}. Run the script again if you want a different chef.')
 
 while True:
