@@ -1,6 +1,12 @@
 Encode AI Bootcamp: Assignments for Group 11
 
-week-1-project: Run main.py and get one of the different chef personalities available
+WEEK 2:
+Everything is under week-2-project:
+
+
+WEEK 1:
+Everything is in folder week-1-project:
+Run main.py and get one of the different chef personalities available
 
 Usage:
 
