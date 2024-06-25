@@ -22,6 +22,8 @@ export default function Chat() {
   const [state, setState] = useState({
     genre: "",
     tone: "",
+    funny: "",
+    appropriate: "",
   });
 
   const handleChange = ({
@@ -92,15 +94,51 @@ export default function Chat() {
             </div>
           </div>
 
+          <div className="space-y-4 bg-opacity-25 bg-gray-700 rounded-lg p-4">
+            <h3 className="text-xl font-semibold">For un-fun people</h3>
+
+            <div className="flex flex-wrap justify-center">
+              <div className="p-4 m-2 bg-opacity-25 bg-gray-600 rounded-lg">
+                <input
+                  id={'funny'}
+                  type="checkbox"
+                  name="funny"
+                  value={'funny'}
+                  onChange={handleChange}
+                />
+                <label className="ml-2" htmlFor={'funny'}>
+                  Funny
+                </label>
+              </div>
+              <div className="p-4 m-2 bg-opacity-25 bg-gray-600 rounded-lg">
+                <input
+                  id={'appropriate'}
+                  type="checkbox"
+                  name="appropriate"
+                  value={'appropriate'}
+                  onChange={handleChange}
+                />
+                <label className="ml-2" htmlFor={'appropriate'}>
+                  Appropriate
+                </label>
+              </div>
+            </div>
+          </div>
+
+
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
             disabled={isLoading || (!state.genre || !state.tone)}
-            onClick={() =>
+            onClick={() => {
               append({
                 role: "user",
                 content: `Generate a ${state.genre} joke in a ${state.tone} tone`,
+              });
+              append({
+                role: "user",
+                content: `Make it ${state.funny === 'funny' ? 'funny' : 'not funny'} and ${state.appropriate === 'appropriate' ? 'appropriate' : 'not appropriate'}`,
               })
-            }
+            }}
           >
             Generate joke
           </button>
