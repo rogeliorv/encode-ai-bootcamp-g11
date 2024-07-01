@@ -1,69 +1,78 @@
 "use client";
 
-import { useState } from "react";
-import { useChat } from "ai/react";
+import { useMemo, useState } from "react";
+import { TextDelta, Text } from "openai/resources/beta/threads/messages.mjs";
+import { ArtAssistant } from "@/utils/assistant";
 
 export default function Chat() {
-  const { messages, append, isLoading } = useChat();
+  const assistant = useMemo(() => new ArtAssistant(), []);
+  const [chatBoxText, setChatBoxText] = useState<string>('');
+  const [artDescription, setArtDescription] = useState<string>('');
 
-  const [state, setState] = useState({
-    genre: "",
-    tone: "",
-    funny: "",
-    appropriate: "",
-  });
+  const handleBlur = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setChatBoxText(e.target.value);
+  }
 
-  const handleChange = ({
-    target: { name, value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [name]: value,
-    });
-  };
+  const handleIncomingText = (text: Text) => {
+    console.log(`handleIncomingText`);
+    console.log(text);
+  }
+
+  const handleIncomingTextDelta = (textDelta: TextDelta, snapshot: Text) => {
+    console.log(`handleIncomingTextDelta`);
+    console.log(textDelta);
+    setArtDescription(snapshot.value);
+  }
 
   return (
     <main className="mx-auto w-full p-24 flex flex-col">
       <div className="p4 m-4">
         <div className="flex flex-col items-center justify-center space-y-8 text-white">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Art creating assistant (WORK IN PROGRESS)</h2>
+            <h2 className="text-3xl font-bold">Art creating assistant</h2>
             <p className="text-zinc-500 dark:text-zinc-400">
-              Describe an famous painting, I will guess which one is it and try to replicate it
+              Describe a famous painting, I will guess which one is it and try to replicate it
             </p>
           </div>
 
-          <div className="space-y-4 bg-opacity-25 bg-gray-700 rounded-lg p-4">
-            <h3 className="text-xl font-semibold">Genre</h3>
-          </div>
-
+          <textarea
+            className="w-full h-32 p-2 bg-opacity-25 bg-gray-500 text-white rounded-lg"
+            onBlur={handleBlur} />
 
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-            disabled={isLoading || (!state.genre || !state.tone)}
+            disabled={(!chatBoxText)}
             onClick={() => {
-              append({
-                role: "user",
-                content: `Generate a ${state.genre} joke in a ${state.tone} tone`,
-              });
-              append({
-                role: "user",
-                content: `Make it ${state.funny === 'funny' ? 'funny' : 'not funny'} and ${state.appropriate === 'appropriate' ? 'appropriate' : 'not appropriate'}`,
-              })
+              assistant.runAssistantWithText(chatBoxText, handleIncomingText, handleIncomingTextDelta);
             }}
           >
-            Generate joke
+            Get painting details
           </button>
 
-          <div
-            hidden={
-              messages.length === 0 ||
-              messages[messages.length - 1]?.content.startsWith("Generate")
-            }
-            className="bg-opacity-25 bg-gray-700 rounded-lg p-4"
-          >
-            {messages[messages.length - 1]?.content}
-          </div>
+
+          {artDescription &&
+          <>
+
+            <div className="bg-opacity-25 bg-gray-700 rounded-lg p-4">
+              {artDescription.split('\n').map((x, key) =>
+                <p key={key}>
+                  {x}
+                </p>
+              )}
+            </div>
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+              disabled={(!artDescription)}
+              onClick={() => {
+
+              }}
+            >
+              Generate painting
+            </button>
+          </>
+          }
+
         </div>
       </div>
     </main>
