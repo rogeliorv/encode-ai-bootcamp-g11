@@ -1,5 +1,15 @@
 Encode AI Bootcamp: Assignments for Group 11
 
+
+WEEK 3:
+Everything is under week-3-project:
+
+- It is an assistant + usage of dalle-3 api
+- To run it you need to install next + your own open ai api key
+- NOTE: This project puts everything on the client. Remember to never upload to a public place your own API key
+- See instructions under week-3-project/README.md
+
+
 WEEK 2:
 Everything is under week-2-project:
 
