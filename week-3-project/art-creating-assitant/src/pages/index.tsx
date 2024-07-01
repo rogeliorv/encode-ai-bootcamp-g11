@@ -3,9 +3,16 @@
 import { useMemo, useState } from "react";
 import { TextDelta, Text } from "openai/resources/beta/threads/messages.mjs";
 import { ArtAssistant } from "@/utils/assistant";
+import { ImageGenerator } from "@/utils/imageGeneration";
 
 export default function Chat() {
   const assistant = useMemo(() => new ArtAssistant(), []);
+  const imageGenerator = useMemo(() => new ImageGenerator(), []);
+
+  const [error, setError] = useState<string>('');
+  const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
+  const [imgUrl, setImgUrl] = useState<string>('');
+
   const [chatBoxText, setChatBoxText] = useState<string>('');
   const [artDescription, setArtDescription] = useState<string>('');
 
@@ -30,6 +37,7 @@ export default function Chat() {
         <div className="flex flex-col items-center justify-center space-y-8 text-white">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold">Art creating assistant</h2>
+            {error && <p className="text-red">{error}</p>}
             <p className="text-zinc-500 dark:text-zinc-400">
               Describe a famous painting, I will guess which one is it and try to replicate it
             </p>
@@ -43,12 +51,12 @@ export default function Chat() {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
             disabled={(!chatBoxText)}
             onClick={() => {
+              setError('');
               assistant.runAssistantWithText(chatBoxText, handleIncomingText, handleIncomingTextDelta);
             }}
           >
             Get painting details
           </button>
-
 
           {artDescription &&
           <>
@@ -61,14 +69,24 @@ export default function Chat() {
               )}
             </div>
 
+            {imgUrl && <img src={imgUrl} />}
+
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-              disabled={(!artDescription)}
+              disabled={(!artDescription || isImageLoading)}
               onClick={() => {
-
+                setError('');
+                setIsImageLoading(true);
+                imageGenerator.generateImage(artDescription).then((imgUrl: string) => {
+                  setImgUrl(imgUrl);
+                  setIsImageLoading(false);
+                }).catch((error) => {
+                  setError(error);
+                  setIsImageLoading(false);
+                });
               }}
             >
-              Generate painting
+              { isImageLoading ? 'Loading...' : 'Generate painting' }
             </button>
           </>
           }
