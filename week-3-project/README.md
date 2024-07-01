@@ -8,6 +8,14 @@ and use the environment variable OPENAI_API_KEY instead
 
 
 1.- Run npm install
+
 2.- Run npm run dev
+
 3.- Go to the project and write a description of a famous painting. E.g: Famous davinci painting of a girl smiling
+
 4.- Once the assistant has guessed the painting, click the "Generate Painting" button
+
+
+You can see how it works here:
+
+https://www.loom.com/share/62e7d340900d40689285f3cb75cbc3bd?sid=ce517ca6-53b2-4444-9871-49befe7bd3f5

@@ -27,8 +27,6 @@ export default function Chat() {
   }
 
   const handleIncomingTextDelta = (textDelta: TextDelta, snapshot: Text) => {
-    console.log(`handleIncomingTextDelta`);
-    console.log(textDelta);
     setArtDescription(snapshot.value);
   }
 
